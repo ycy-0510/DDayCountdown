@@ -48,8 +48,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .store(in: &cancellables)
             
         // Observe Selection Changes (User picks new exam)
-        // Note: AppStorage writes to UserDefaults.
         NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.updateStatusTitle()
+            }
+            .store(in: &cancellables)
+            
+        // Observe Significant Time Changes (Midnight, System Time change)
+        NotificationCenter.default.publisher(for: .NSCalendarDayChanged)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.updateStatusTitle()
+            }
+            .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: NSWorkspace.didWakeNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.updateStatusTitle()
+            }
+            .store(in: &cancellables)
+            
+        NotificationCenter.default.publisher(for: NSNotification.Name.NSSystemClockDidChange)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.updateStatusTitle()
@@ -61,34 +82,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func updateStatusTitle() {
         let selectedName = UserDefaults.standard.string(forKey: "selectedExamName") ?? "115 GSAT"
         
-        // Find the date for the selected exam
-        var targetDate = Date()
         if let exam = dateManager.dDayDates.first(where: { $0.name == selectedName }) {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            targetDate = formatter.date(from: exam.fromDate) ?? Date()
+            statusItem.button?.title = exam.dDayText()
         } else {
-            // If main list is empty (not loaded yet) or not found, try to ensure we have something or wait
-            // For now, if we can't find it, we might display "Loading" or just "D-Day"
-            // Let's reload if empty?
-             if dateManager.dDayDates.isEmpty {
+            // If empty, try fetch, otherwise show loading or default
+            if dateManager.dDayDates.isEmpty {
                  dateManager.fetchDates()
+                 statusItem.button?.title = "Loading..."
+             } else {
+                 statusItem.button?.title = "D-Day"
              }
         }
-        
-        // Calculate Days
-        let today = Calendar.current.startOfDay(for: Date())
-        let target = Calendar.current.startOfDay(for: targetDate)
-        let days = Calendar.current.dateComponents([.day], from: today, to: target).day ?? 0
-
-        let title: String
-        switch days {
-        case 0: title = "D-Day"
-        case let d where d > 0: title = "D-\(d)"
-        default: title = "D+\(-days)"
-        }
-
-        statusItem.button?.title = title
     }
 
     @objc func togglePopover(_ sender: Any?) {

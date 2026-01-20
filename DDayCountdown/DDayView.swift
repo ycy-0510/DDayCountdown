@@ -10,17 +10,12 @@ import LaunchAtLogin
 
 struct DDayView: View {
     @ObservedObject var dateManager: DateManager
-    @AppStorage("selectedExamName") private var selectedExamName: String = "115 GSAT"
+    @AppStorage("selectedExamName") private var selectedExamName: String = "115 AST"
     @State private var now = Date()
     
     // Fallback date if nothing is found (e.g. initial load before fetch completes)
-    var targetDate: Date {
-        if let exam = dateManager.dDayDates.first(where: { $0.name == selectedExamName }) {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            return formatter.date(from: exam.fromDate) ?? Date()
-        }
-        return Date()
+    var currentExam: ExamDate? {
+        dateManager.dDayDates.first(where: { $0.name == selectedExamName })
     }
     
     private let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
@@ -40,7 +35,7 @@ struct DDayView: View {
                 .font(.largeTitle)
                 .padding(.vertical, 5)
             
-            Text("\(selectedExamName): \(formattedDate)")
+            Text(formattedDate)
                 .font(.caption)
                 .foregroundColor(.gray)
                 .padding(.bottom)
@@ -57,6 +52,10 @@ struct DDayView: View {
                     dateManager.fetchDates()
                 }
                 
+                Button("About") {
+                    NSApp.orderFrontStandardAboutPanel(nil)
+                }
+                
                 Button("Quit") {
                     NSApp.terminate(nil)
                 }
@@ -71,21 +70,17 @@ struct DDayView: View {
     }
 
     var formattedDDay: String {
-        let today = Calendar.current.startOfDay(for: now)
-        let target = Calendar.current.startOfDay(for: targetDate)
-        let days = Calendar.current.dateComponents([.day], from: today, to: target).day ?? 0
-
-        switch days {
-        case 0: return "D-Day"
-        case let d where d > 0: return "D-\(d)"
-        default: return "D+\(-days)"
-        }
+        guard let exam = currentExam else { return "..." }
+        return exam.dDayText(relativeTo: now)
     }
 
     var formattedDate: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter.string(from: targetDate)
+        guard let exam = currentExam else { return "" }
+        if exam.fromDate == exam.toDate {
+            return "\(exam.name): \(exam.fromDate)"
+        } else {
+            return "\(exam.name): \(exam.fromDate) ~ \(exam.toDate)"
+        }
     }
 }
 
