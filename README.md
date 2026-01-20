@@ -25,6 +25,12 @@ A simple and elegant macOS menu bar application that helps you count down to imp
 
 - [LaunchAtLogin-Modern](https://github.com/sindresorhus/LaunchAtLogin-Modern): For adding "Launch at Login" functionality.
 
+## Add more events
+
+1. Fork this repository
+2. Edit `Date.json` to add your events
+3. Submit a pull request
+
 ## License
 
 This project is licensed under the [AGPLv3 License](LICENSE).
