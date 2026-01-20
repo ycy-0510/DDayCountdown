@@ -1,0 +1,6 @@
+# gitignore for xcode
+xcuserdata
+DerivedData
+.xccheckout
+# macos
+.DS_Store
