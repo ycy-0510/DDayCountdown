@@ -1,31 +1,31 @@
 [
     {
-        "name": "115 GSAT",
+        "name": "115 學測",
         "fromDate": "2026-01-17",
         "toDate": "2026-01-19"
     },
     {
-        "name": "115 AST",
+        "name": "115 分科",
         "fromDate": "2026-07-11",
         "toDate": "2026-07-12"
     },
     {
-        "name": "115 CAP",
+        "name": "115 會考",
         "fromDate": "2026-05-16",
         "toDate": "2026-05-17"
     },
     {
-        "name": "116 GSAT",
+        "name": "116 學測",
         "fromDate": "2027-01-16",
         "toDate": "2027-01-18"
     },
     {
-        "name": "116 AST",
+        "name": "116 分科",
         "fromDate": "2027-07-10",
         "toDate": "2027-07-11"
     },
     {
-        "name": "116 CAP",
+        "name": "116 會考",
         "fromDate": "2027-05-15",
         "toDate": "2027-05-16"
     }
