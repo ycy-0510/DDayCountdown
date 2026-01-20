@@ -286,7 +286,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = DDay;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "2026 YCY. Licensed under AGPLv3.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "2026 YCY. Licensed under GPLv3.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -322,7 +322,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = DDay;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "2026 YCY. Licensed under AGPLv3.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "2026 YCY. Licensed under GPLv3.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

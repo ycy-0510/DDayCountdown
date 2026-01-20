@@ -33,4 +33,4 @@ A simple and elegant macOS menu bar application that helps you count down to imp
 
 ## License
 
-This project is licensed under the [AGPLv3 License](LICENSE).
+This project is licensed under the [GPLv3 License](LICENSE).
